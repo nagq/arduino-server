@@ -1,28 +1,22 @@
 import React, { useState } from 'react';
 import { useNavigate, Routes, Route } from 'react-router';
-import {
-  PieChartOutlined,
-  UserOutlined,
-} from '@ant-design/icons';
 import { Layout, Menu, theme } from 'antd';
 import Home from './pages/Home';
 import TestA from './pages/TestA';
 import TestB from './pages/TestB';
+import RrelayControl from './pages/RelayControl';
 
-const { Header, Content, Footer, Sider } = Layout;
+const { Content, Sider } = Layout;
 
 function getItem(label, key, icon, children) {
-  return {
-    key,
-    icon,
-    children,
-    label,
-  };
+  return { key, icon, children, label };
 }
 
+// 左侧导航
 const items = [
-  getItem('首页', '/', <PieChartOutlined />),
-  getItem('测试1', '/test', <PieChartOutlined />),
+  getItem('首页', '/'),
+  getItem('测试', '/test'),
+  getItem('RELAY_CONTROL', '/relay_control'),
 ];
 
 const App = () => {
@@ -32,13 +26,8 @@ const App = () => {
     token: { colorBgContainer, borderRadiusLG },
   } = theme.useToken();
   return (
-    <Layout
-      style={{
-        minHeight: '100vh',
-      }}
-    >
+    <Layout style={{ minHeight: '100vh' }}>
       <Sider collapsible collapsed={collapsed} onCollapse={(value) => setCollapsed(value)}>
-        <div className="demo-logo-vertical" />
         <Menu
           theme="dark"
           defaultSelectedKeys={['1']}
@@ -54,16 +43,18 @@ const App = () => {
           <div
             style={{
               padding: 10,
-              minHeight: 360,
+              minHeight: '100vh',
               background: colorBgContainer,
               borderRadius: borderRadiusLG,
             }}
           >
             
             <Routes>
+              {/* 路由配置 */}
               <Route index element={<Home />} />
               <Route path="/test" element={<TestA />} />
               <Route path="/test/b" element={<TestB />} />
+              <Route path="/relay_control" element={<RrelayControl />} />
             </Routes>
           </div>
         </Content>

@@ -11,13 +11,35 @@ const char* password = "a12345678";
 IPAddress local_IP(192, 168, 119, 200);
 IPAddress gateway(192, 168, 119, 1);
 IPAddress subnet(255, 255, 255, 0);
-IPAddress primaryDNS(8, 8, 8, 8); // Google DNS
-IPAddress secondaryDNS(8, 8, 4, 4); // Google DNS
+IPAddress primaryDNS(8, 8, 8, 8);
+IPAddress secondaryDNS(8, 8, 4, 4);
+
+void handleStatus() {
+  bool ready = false;
+  bool open = false;
+
+  String result = "";
+  result += ready ? "1" : "0";
+  result += open ? "1" : "0";
+
+  server.send(200, "text/plain", result);
+}
+
+void handleActionOn() {
+  digitalWrite(48,LOW);
+  server.send(200, "text/json", "{}");
+}
+
+void handleActionOff() {
+  digitalWrite(48,HIGH);
+  server.send(200, "text/json", "{}");
+}
 
 void setup() {
   // 初始化串口通信
   Serial.begin(115200);
   Serial.println("Starting...");
+  pinMode(48,OUTPUT);
 
   // 设置LED引脚为输出模式
   for (int i = 1; i <= 6; i++) {
@@ -41,6 +63,10 @@ void setup() {
   Serial.println(WiFi.localIP());
 
   init();
+
+  server.on("/action/on", HTTP_POST, handleActionOn);
+  server.on("/action/off", HTTP_POST, handleActionOff);
+  server.on("/status", HTTP_GET, handleStatus);
 
   // 启动Web服务器
   server.begin();

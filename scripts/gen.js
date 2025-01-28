@@ -42,15 +42,11 @@ const main = () => {
     const str1 = files.map((item) => {
         const { cleanName, content } = item;
         return `const char* ${cleanName} = ${content};`;
-    })
-        .join('\n\n')
-        .concat(['\n']);
+    }).join('\n\n').concat(['\n']);
 
     const str2 = files.map((item) => {
-            const { name, cleanName, type, method } = item;
-    
-            return `
-// ${name}
+        const { name, cleanName, type, method } = item;
+        return `// ${name}
 void ${method}() {
   server.send_P(200, "${type}", ${cleanName});
 }
@@ -64,7 +60,6 @@ void ${method}() {
 
     fs.writeFileSync(path.join(__dirname, '../arduino-server/arduino-server.h'),
     `${str1}
-
 // 创建Web服务器实例，监听80端口
 WebServer server(80);
 
