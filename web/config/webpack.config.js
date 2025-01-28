@@ -210,13 +210,13 @@ module.exports = function (webpackEnv) {
       // There will be one main bundle, and one file per asynchronous chunk.
       // In development, it does not produce real files.
       filename: isEnvProduction
-        ? 'bundle.js'
+        ? '[name].[contenthash:8].js'
         : isEnvDevelopment && 'bundle.js',
       // There are also additional JS chunk files if you use code splitting.
       chunkFilename: isEnvProduction
-        ? 'bundle.chunk.js'
-        : isEnvDevelopment && 'bundle.chunk.js',
-      assetModuleFilename: 'static/[name].[ext]',
+        ? '[name].[contenthash:8].chunk.js'
+        : isEnvDevelopment && '[name].chunk.js',
+      assetModuleFilename: '[name].[hash][ext]',
       // webpack uses `publicPath` to determine where the app is being served from.
       // It requires a trailing slash, or the file assets will get an incorrect path.
       // We inferred the "public path" (such as / or /my-project) from homepage.
@@ -294,6 +294,10 @@ module.exports = function (webpackEnv) {
         // This is only used in production mode
         new CssMinimizerPlugin(),
       ],
+      // splitChunks: {
+      //   chunks: 'all',
+      //   maxSize: 100 * 1024,
+      // },
     },
     resolve: {
       // This allows you to set a fallback for where webpack should look for modules.
@@ -396,7 +400,7 @@ module.exports = function (webpackEnv) {
                 {
                   loader: require.resolve('file-loader'),
                   options: {
-                    name: 'static/[name].[ext]',
+                    name: '[name].[hash].[ext]',
                   },
                 },
               ],
@@ -628,8 +632,8 @@ module.exports = function (webpackEnv) {
         new MiniCssExtractPlugin({
           // Options similar to the same options in webpackOptions.output
           // both options are optional
-          filename: 'bundle.css',
-          // chunkFilename: 'static/css/[name].[contenthash:8].chunk.css',
+          filename: '[name].[contenthash:8].css',
+          chunkFilename: '[name].[contenthash:8].chunk.css',
         }),
       // Generate an asset manifest file with the following content:
       // - "files" key: Mapping of all asset filenames to their corresponding

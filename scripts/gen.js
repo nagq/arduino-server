@@ -16,8 +16,8 @@ const getFiles = () => {
                 const arr = entry.split('\.');
                 const type = ({
                     'html': 'text/html',
-                    'css': 'text/stylesheet',
-                    'js': 'text/javascript',
+                    'css': 'text/css',
+                    'js': 'application/javascript',
                 })[arr[arr.length - 1]];
                 const cleanName = entry.replaceAll(/\./g, '_');
 
@@ -39,40 +39,43 @@ const getFiles = () => {
 
 const main = () => {
     const files = getFiles();
-    const target = files.map((item) => {
+    const str1 = files.map((item) => {
         const { cleanName, content } = item;
-        return `String ${cleanName} = ${content};`;
+        return `const char* ${cleanName} = ${content};`;
     })
-        .join('\n')
-        .concat(['\n'])
-        .concat(files.map((item) => {
+        .join('\n\n')
+        .concat(['\n']);
+
+    const str2 = files.map((item) => {
             const { name, cleanName, type, method } = item;
     
             return `
 // ${name}
 void ${method}() {
-    server.send(200, "${type}", ${cleanName});
+  server.send_P(200, "${type}", ${cleanName});
 }
 `;
-        }).join('\n'));
+        }).join('\n')
 
-    fs.writeFileSync(path.join(__dirname, '../arduino-server/arduino-server.h'), `
+    const str3 = files.map((item) => {
+        const { name, method } = item;
+        return `server.on("/${name}", ${method});`;
+    }).join('\n    ');
 
-// 固定的WiFi信息
-const char* ssid = "mypwifi";
-const char* password = "a12345678";
-
-// 固定的IP地址信息
-IPAddress local_IP(192, 168, 39, 200);
-IPAddress gateway(192, 168, 39, 1);
-IPAddress subnet(255, 255, 255, 0);
-IPAddress primaryDNS(8, 8, 8, 8); // Google DNS
-IPAddress secondaryDNS(8, 8, 4, 4); // Google DNS
+    fs.writeFileSync(path.join(__dirname, '../arduino-server/arduino-server.h'),
+    `${str1}
 
 // 创建Web服务器实例，监听80端口
 WebServer server(80);
 
-${target}
+const size_t chunk_size = 1024;
+
+${str2}
+
+void init() {
+    server.on("/", handle_index_html);
+    ${str3}
+}
 `)
 }
 
