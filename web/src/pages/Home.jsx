@@ -1,6 +1,6 @@
 import React from "react";
 
-const Home = () => {
+const Component = () => {
     return (
         <div>
             ESP Board
@@ -8,4 +8,4 @@ const Home = () => {
     )
 };
 
-export default Home;
+export default Component;

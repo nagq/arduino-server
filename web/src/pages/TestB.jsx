@@ -1,7 +1,7 @@
 import React from 'react';
 import { Space, Button } from 'antd';
 
-const TestB = () => {
+const Component = () => {
 
     const onClick = () => {
         fetch("/action", {
@@ -22,4 +22,4 @@ const TestB = () => {
     )
 };
 
-export default TestB;
+export default Component;

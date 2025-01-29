@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { Space, Switch } from 'antd';
 
-const TestB = () => {
+const Component = () => {
     const [checked, setChecked] = useState(false);
 
     useEffect(() => {
@@ -36,4 +36,4 @@ const TestB = () => {
     )
 };
 
-export default TestB;
+export default Component;
