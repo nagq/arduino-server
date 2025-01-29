@@ -14,25 +14,22 @@ IPAddress subnet(255, 255, 255, 0);
 IPAddress primaryDNS(8, 8, 8, 8);
 IPAddress secondaryDNS(8, 8, 4, 4);
 
-void handleStatus() {
-  bool ready = false;
-  bool open = false;
-
-  String result = "";
-  result += ready ? "1" : "0";
-  result += open ? "1" : "0";
-
-  server.send(200, "text/plain", result);
-}
+// 响应成功 默认报文
+String successResp = "{\"code\":0}";
 
 void handleActionOn() {
-  digitalWrite(48,LOW);
-  server.send(200, "text/json", "{}");
+  digitalWrite(48, LOW);
+  server.send(200, "text/json", successResp);
 }
 
 void handleActionOff() {
-  digitalWrite(48,HIGH);
-  server.send(200, "text/json", "{}");
+  digitalWrite(48, HIGH);
+  server.send(200, "text/json", successResp);
+}
+
+void handleActionStatus() {
+  int status = digitalRead(48);
+  server.send(200, "text/json", "{\"code\":0, \"result\": " + String(status) + "}");
 }
 
 void setup() {
@@ -66,7 +63,7 @@ void setup() {
 
   server.on("/action/on", HTTP_POST, handleActionOn);
   server.on("/action/off", HTTP_POST, handleActionOff);
-  server.on("/status", HTTP_GET, handleStatus);
+  server.on("/action/status", HTTP_GET, handleActionStatus);
 
   // 启动Web服务器
   server.begin();
