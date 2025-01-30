@@ -10,13 +10,10 @@ npm run dev:web
 npm run build
 ```
 
-html + css + js + react + antd
-
-# node
-
-web\src\App.js
-- 加导航
-- 配置路由
-- 增加页面
-
-https://ant-design.antgroup.com/components/overview-cn/
+- arduino-server.h           WebServer 定义，全局
+- arduino-server.ino         主文件；项目入口
+- constants.h                常量定义
+- server-handle.h            操作请求处理 头文件
+- server-handle.ino          操作请求处理
+- static-files-handle.h      静态资源处理 头文件
+- static-files-handle.ino    静态资源处理（自动生成）

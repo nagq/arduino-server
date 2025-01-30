@@ -58,16 +58,14 @@ void ${method}() {
         return `server.on("/${name}", ${method});`;
     }).join('\n    ');
 
-    fs.writeFileSync(path.join(__dirname, '../arduino-server/arduino-server.h'),
-    `${str1}
-// 创建Web服务器实例，监听80端口
-WebServer server(80);
+    fs.writeFileSync(path.join(__dirname, '../arduino-server/static-files-handle.ino'),
+    `#include "arduino-server.h"
 
-const size_t chunk_size = 1024;
+${str1}
 
 ${str2}
 
-void init() {
+void staticFilesHandle() {
     server.on("/", handle_index_html);
     ${str3}
 }
