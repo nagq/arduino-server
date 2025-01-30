@@ -4,6 +4,7 @@ import { Layout, Menu, theme } from 'antd';
 import Home from './pages/Home';
 import RrelayControl from './pages/RelayControl';
 
+import Camera from './pages/Camera';
 import Page01 from './pages/Page01';
 import Page02 from './pages/Page02';
 import Page03 from './pages/Page03';
@@ -26,6 +27,7 @@ const items = [
   getItem('HOME', '/'),
   getItem('OUTPUT', '/relay_control'),
 
+  getItem('Camera', '/camera'),
   getItem('PAGE 1', '/page_01'),
   getItem('PAGE 2', '/page_02'),
   getItem('PAGE 3', '/page_03'),
@@ -62,7 +64,6 @@ const App = () => {
         <Content>
           <div
             style={{
-              padding: 10,
               minHeight: '100vh',
               background: colorBgContainer,
               borderRadius: borderRadiusLG,
@@ -73,6 +74,7 @@ const App = () => {
               {/* 路由配置 */}
               <Route index element={<Home />} />
               <Route path="/relay_control" element={<RrelayControl />} />
+              <Route path="/camera" element={<Camera />} />
 
               <Route path="/page_01" element={<Page01 />} />
               <Route path="/page_02" element={<Page02 />} />
