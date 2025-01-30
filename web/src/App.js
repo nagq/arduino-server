@@ -26,8 +26,8 @@ function getItem(label, key, icon, children) {
 const items = [
   getItem('HOME', '/'),
   getItem('OUTPUT', '/relay_control'),
+  getItem('CAMERA', '/camera'),
 
-  getItem('Camera', '/camera'),
   getItem('PAGE 1', '/page_01'),
   getItem('PAGE 2', '/page_02'),
   getItem('PAGE 3', '/page_03'),

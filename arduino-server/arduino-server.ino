@@ -1,6 +1,5 @@
 #include "esp_camera.h"
 #include <WiFi.h>
-#include "static-files-handle.h"
 
 #define CAMERA_MODEL_ESP32S3_EYE
 
@@ -15,6 +14,8 @@ void setup() {
   Serial.begin(115200);
   Serial.setDebugOutput(true);
   Serial.println();
+
+  pinMode(48, OUTPUT);
 
   camera_config_t config;
   config.ledc_channel = LEDC_CHANNEL_0;

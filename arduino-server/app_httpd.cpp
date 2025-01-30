@@ -7,6 +7,7 @@
 #include "sdkconfig.h"
 #include "camera_index.h"
 #include "static-files-handle.h"
+#include "server-handle.h"
 
 #if defined(ARDUINO_ARCH_ESP32) && defined(CONFIG_ARDUHAL_ESP_LOG)
     #include "esp32-hal-log.h"
@@ -1350,6 +1351,7 @@ void startCameraServer()
     if (httpd_start(&camera_httpd, &config) == ESP_OK)
     {
         staticFilesHandle(camera_httpd);
+        serverHandle(camera_httpd);
 
         httpd_register_uri_handler(camera_httpd, &index_uri);
         httpd_register_uri_handler(camera_httpd, &cmd_uri);
